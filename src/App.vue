@@ -1,11 +1,30 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+import BasicLayout from './templates/BasicLayout.vue'
+
+const refreshStamp = Date.now()
+
+const layoutByName = {
+  BasicLayout,
+} as const
+
+function getLayout(templateName: unknown) {
+  if (typeof templateName !== 'string') {
+    return layoutByName.BasicLayout
+  }
+
+  return layoutByName[templateName as keyof typeof layoutByName] ?? layoutByName.BasicLayout
+}
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <RouterView v-slot="{ Component, route }">
+    <component :is="getLayout(route.meta.template)">
+      <template #main>
+        <component :is="Component" :key="`${route.fullPath}-${refreshStamp}`" />
+      </template>
+    </component>
+  </RouterView>
 </template>
 
 <style scoped></style>
