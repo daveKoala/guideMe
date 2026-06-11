@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MainTimeline from '../components/MainTimeline.vue'
+import TimelineBase from '@/components/timeline/TimelineBase.vue'
 </script>
 
 <template>
@@ -7,8 +7,8 @@ import MainTimeline from '../components/MainTimeline.vue'
     <h2>Home</h2>
     <p>
       Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-      documentation
+      documentation....
     </p>
-    <MainTimeline />
+    <TimelineBase />
   </section>
 </template>

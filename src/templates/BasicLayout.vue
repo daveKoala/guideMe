@@ -1,15 +1,32 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import Menubar from 'primevue/menubar'
+import type { MenuItem } from 'primevue/menuitem'
+
+const items: MenuItem[] = [
+	{ label: 'Home', route: '/' },
+	{ label: 'About', route: '/about' },
+]
 </script>
 
 <template>
 	<div class="layout">
 		<header class="topbar">
 			<div class="topbar-inner">
-				<nav class="nav" aria-label="Primary">
-					<RouterLink to="/">Home</RouterLink>
-					<RouterLink to="/about">About</RouterLink>
-				</nav>
+				<Menubar :model="items" class="nav" aria-label="Primary">
+					<template #item="{ item, props }">
+						<RouterLink v-slot="{ href, navigate, isActive }" :to="item.route" custom>
+							<a
+								:href="href"
+								v-bind="props.action"
+								:class="{ 'nav-link-active': isActive }"
+								@click="navigate"
+							>
+								{{ item.label }}
+							</a>
+						</RouterLink>
+					</template>
+				</Menubar>
 			</div>
 		</header>
 
@@ -51,8 +68,10 @@ import { RouterLink } from 'vue-router'
 }
 
 .nav {
-	display: flex;
-	gap: var(--space-6);
+	background: transparent;
+	border: none;
+	border-radius: 0;
+	padding: 0;
 }
 
 .nav :deep(a) {
@@ -61,7 +80,7 @@ import { RouterLink } from 'vue-router'
 	font-weight: 600;
 }
 
-.nav :deep(a.router-link-active) {
+.nav :deep(a.nav-link-active) {
 	text-decoration: underline;
 	text-underline-offset: 3px;
 }
@@ -77,5 +96,16 @@ import { RouterLink } from 'vue-router'
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius-md);
 	padding: var(--space-6);
+}
+
+/* Reclaim width on hand-held screens (360px floor) */
+@media (max-width: 480px) {
+	.main {
+		padding: calc(var(--topbar-height) + var(--space-4)) var(--space-4) var(--space-4);
+	}
+
+	.content {
+		padding: var(--space-4);
+	}
 }
 </style>

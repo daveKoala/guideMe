@@ -12,12 +12,25 @@ const routes = [
     },
   },
   {
+    path: '/landing-page',
+    name: 'landing-page',
+    component: () => import('../views/LandingPage.vue'),
+    meta: {
+      template: 'BasicLayout',
+    },
+  },
+  {
     path: '/about',
     name: 'about',
     component: About,
     meta: {
       template: 'BasicLayout',
     },
+  },
+  // default redirect to home page
+  {
+    path: '/:pathMatch(.*)*', 
+    redirect: '/',
   },
 ]
 
