@@ -3,7 +3,11 @@
     "allow": [
       "Bash(npm run *)",
       "Bash(npm install *)",
-      "Bash(npm ls *)"
+      "Bash(npm ls *)",
+      "Bash(git check-ignore *)",
+      "Bash(npm i *)",
+      "Bash(npx @vite-pwa/assets-generator --preset minimal-2023 public/logo.svg)",
+      "Bash(npx vue-tsc *)"
     ]
   }
 }

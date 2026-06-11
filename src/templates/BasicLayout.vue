@@ -6,7 +6,10 @@ import type { MenuItem } from 'primevue/menuitem'
 const items: MenuItem[] = [
 	{ label: 'Home', route: '/' },
 	{ label: 'About', route: '/about' },
+    { label: 'People', route: '/people' },
+    { label: 'Trips', route: '/trips' },
 ]
+
 </script>
 
 <template>

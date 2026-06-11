@@ -2,6 +2,7 @@ import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 import type { Trip, TripType, TripStatus, Party, Sharing } from '../types/trip'
 import type { Stage } from '../types/stage'
+import { mockTrips } from '../data/mock_trips'
 
 const STORAGE_KEY = 'guide-me:trips'
 
@@ -93,6 +94,32 @@ export const useTripsStore = defineStore('trips', () => {
 
   watch([trips, currentTripId], persist, { deep: true })
 
+  /** Deep-clone the mock set so the store owns its copy and HomePage's
+   *  reactive mockTrip stays independent. */
+  function seed(): Trip[] {
+    return mockTrips.map((t) => structuredClone(t))
+  }
+
+  /** Seed from mock trips on first run (empty storage) and guarantee a valid
+   *  current trip — falls back to the first trip if none/stale id selected. */
+  function loadTrips() {
+    if (trips.value.length === 0) trips.value = seed()
+    const exists = trips.value.some((t) => t.trip.id === currentTripId.value)
+    if (!exists) currentTripId.value = trips.value[0]?.trip.id ?? null
+  }
+
+  /** Drop persisted trips and re-seed from mock. Recovers from stale storage
+   *  that predates a mock change (e.g. a missing demo trip). */
+  function reset() {
+    try {
+      localStorage.removeItem(STORAGE_KEY)
+    } catch {
+      // ignore
+    }
+    trips.value = seed()
+    currentTripId.value = trips.value[0]?.trip.id ?? null
+  }
+
   function setCurrentTrip(id: string | null) {
     currentTripId.value = id
   }
@@ -169,6 +196,8 @@ export const useTripsStore = defineStore('trips', () => {
     trips,
     currentTripId,
     currentTrip,
+    loadTrips,
+    reset,
     setCurrentTrip,
     saveTrip,
     deleteTrip,

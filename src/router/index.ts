@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/HomePage.vue'
-import About from '../views/AboutPage.vue'
+
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: () => import('../views/HomePage.vue'),
     meta: {
       template: 'BasicLayout',
+      title: 'Home',
     },
   },
   {
@@ -17,14 +17,34 @@ const routes = [
     component: () => import('../views/LandingPage.vue'),
     meta: {
       template: 'BasicLayout',
+      title: 'Landing Page',
+    },
+  },
+  {
+    path: '/people',
+    name: 'people',
+    component: () => import('../views/PeoplePage.vue'),
+    meta: {
+      template: 'BasicLayout',
+      title: 'People',
+    },
+  },
+  {
+    path: '/trips',
+    name: 'trips',
+    component: () => import('../views/TripsPage.vue'),
+    meta: {
+      template: 'BasicLayout',
+      title: 'Trips',
     },
   },
   {
     path: '/about',
     name: 'about',
-    component: About,
+    ccomponent: () => import('../views/LandingPage.vue'),
     meta: {
       template: 'BasicLayout',
+      title: 'About',
     },
   },
   // default redirect to home page
@@ -37,6 +57,13 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+})
+
+const DEFAULT_TITLE = 'Guide Me'
+
+router.afterEach((to) => {
+  const title = to.meta.title as string | undefined
+  document.title = title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE
 })
 
 export default router
