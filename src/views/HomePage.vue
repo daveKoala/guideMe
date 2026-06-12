@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { computed, provide, ref } from 'vue'
-import SelectButton from 'primevue/selectbutton'
+import { computed, provide } from 'vue'
 import StageList from '@/components/timeline/StageList.vue'
 import TripOverview from '@/components/trip/TripOverview.vue'
-import { partyKey, modeKey, emptyParty, type Mode } from '@/components/timeline/tripContext'
+import { partyKey, emptyParty } from '@/components/timeline/tripContext'
 import { useTripsStore } from '@/stores/trips'
 
 const store = useTripsStore()
@@ -16,14 +15,7 @@ const trip = computed(() => store.currentTrip)
 // TripOverview reads `insurance!`; guarantee the array on the active trip.
 if (trip.value && !trip.value.insurance) trip.value.insurance = []
 
-const mode = ref<Mode>('edit')
-const modeOptions: { label: string; value: Mode }[] = [
-  { label: 'Edit', value: 'edit' },
-  { label: 'Read', value: 'read' },
-]
-
 provide(partyKey, trip.value?.party ?? emptyParty)
-provide(modeKey, mode)
 </script>
 
 <template>
@@ -31,14 +23,6 @@ provide(modeKey, mode)
     <template v-if="trip">
       <header class="home__head">
         <h2>{{ trip.trip.name }}</h2>
-        <SelectButton
-          v-model="mode"
-          :options="modeOptions"
-          option-label="label"
-          option-value="value"
-          :allow-empty="false"
-          aria-label="Edit or read mode"
-        />
       </header>
 
       <TripOverview :trip="trip" />

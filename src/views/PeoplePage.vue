@@ -1,21 +1,13 @@
 <script setup lang="ts">
-import { computed, onMounted, provide, ref } from 'vue'
-import SelectButton from 'primevue/selectbutton'
+import { computed, onMounted, ref } from 'vue'
 import Button from 'primevue/button'
 import PersonList from '@/components/people/PersonList.vue'
 import PersonDetail from '@/components/people/PersonDetail.vue'
 import { useAccountStore } from '@/stores/account'
-import { modeKey, type Mode } from '@/components/timeline/tripContext'
 
 const store = useAccountStore()
 
 const selectedId = ref<string | null>(null)
-const mode = ref<Mode>('edit')
-const modeOptions: { label: string; value: Mode }[] = [
-  { label: 'Edit', value: 'edit' },
-  { label: 'Read', value: 'read' },
-]
-provide(modeKey, mode)
 
 const selected = computed(() => (selectedId.value ? store.getPerson(selectedId.value) : undefined))
 
@@ -36,14 +28,6 @@ function reset() {
     <header class="people-page__head">
       <h2>People</h2>
       <div class="people-page__controls">
-        <SelectButton
-          v-model="mode"
-          :options="modeOptions"
-          option-label="label"
-          option-value="value"
-          :allow-empty="false"
-          aria-label="Edit or read mode"
-        />
         <Button label="Reset demo data" icon="pi pi-refresh" text size="small" @click="reset" />
       </div>
     </header>

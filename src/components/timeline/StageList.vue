@@ -7,29 +7,38 @@ const props = defineProps<{ stages: Stage[] }>()
 
 const STORAGE_KEY = 'guide-me:stage-list:expanded'
 
-// Restore last-open stage across reloads/remounts. Only if it still exists in this trip.
-function restore(): string | null {
+// Restore which stages were open across reloads/remounts. Each card is independent,
+// so any number (including none) can be expanded. Default: all minimised.
+function restore(): Set<string> {
   try {
-    const id = localStorage.getItem(STORAGE_KEY)
-    return id && props.stages.some((s) => s.id === id) ? id : null
+    const raw = localStorage.getItem(STORAGE_KEY)
+    const ids: unknown = raw ? JSON.parse(raw) : null
+    if (!Array.isArray(ids)) return new Set()
+    return new Set(ids.filter((id) => props.stages.some((s) => s.id === id)))
   } catch {
-    return null
+    return new Set()
   }
 }
 
-const expandedId = ref<string | null>(restore())
+const expanded = ref<Set<string>>(restore())
 
-watch(expandedId, (id) => {
-  try {
-    if (id) localStorage.setItem(STORAGE_KEY, id)
-    else localStorage.removeItem(STORAGE_KEY)
-  } catch {
-    // storage unavailable — keep working in-memory
-  }
-})
+watch(
+  expanded,
+  (set) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]))
+    } catch {
+      // storage unavailable — keep working in-memory
+    }
+  },
+  { deep: true },
+)
 
 function toggle(id: string) {
-  expandedId.value = expandedId.value === id ? null : id // tap open card = close
+  const next = new Set(expanded.value)
+  if (next.has(id)) next.delete(id) // tap open card = close
+  else next.add(id)
+  expanded.value = next
 }
 </script>
 
@@ -38,7 +47,7 @@ function toggle(id: string) {
     <li v-for="stage in stages" :key="stage.id">
       <StageCard
         :stage="stage"
-        :expanded="expandedId === stage.id"
+        :expanded="expanded.has(stage.id)"
         @toggle="toggle(stage.id)"
       />
     </li>

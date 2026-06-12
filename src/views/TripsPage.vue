@@ -19,7 +19,7 @@ const statusSeverity: Record<TripStatus, string> = {
 function dateRange(trip: Trip): string {
   const starts = trip.stages.map((s) => s.start).filter(Boolean).sort()
   if (!starts.length) return 'No dates yet'
-  const fmt = (iso: string) => iso.slice(0, 10)
+  const fmt = (iso: string | undefined) => (iso ?? '').slice(0, 10)
   const first = fmt(starts[0])
   const last = fmt(starts[starts.length - 1])
   return first === last ? first : `${first} → ${last}`

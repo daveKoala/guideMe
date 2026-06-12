@@ -1,6 +1,14 @@
 <script setup lang="ts">
+import { provide } from 'vue'
+import { storeToRefs } from 'pinia'
 import { RouterView } from 'vue-router'
 import BasicLayout from './templates/BasicLayout.vue'
+import { useUiStore } from './stores/ui'
+import { modeKey } from './components/timeline/tripContext'
+
+// App-wide edit/read mode, provided once so every page + the nav control share it.
+const { mode } = storeToRefs(useUiStore())
+provide(modeKey, mode)
 
 const refreshStamp = Date.now()
 
