@@ -7,7 +7,7 @@ import './styles/base.css'
 import { registerSW } from 'virtual:pwa-register'
 
 import App from './App.vue'
-import router from './router'
+import router from './router/index.ts'
 
 // Register the service worker (autoUpdate): SW updates only swap cached
 // JS/CSS/HTML — localStorage (people/trips/docs) is untouched, so auto-reload is safe.

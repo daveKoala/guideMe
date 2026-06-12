@@ -6,7 +6,7 @@ import AccordionContent from 'primevue/accordioncontent'
 import FileUpload from 'primevue/fileupload'
 import { inject, ref } from 'vue'
 import StageFields from '../StageFields.vue'
-import { modeKey, type Mode } from '../tripContext'
+import { modeKey, type Mode } from '../tripContext.ts'
 import type { Stage } from '@/types/stage'
 
 defineProps<{ stage: Stage }>()

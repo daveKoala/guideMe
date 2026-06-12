@@ -7,7 +7,7 @@ import AccordionContent from 'primevue/accordioncontent'
 import FileUpload from 'primevue/fileupload'
 import DocPreview from '@/components/common/DocPreview.vue'
 import StageFields from '../StageFields.vue'
-import { partyKey, emptyParty, usePartyPeople, modeKey, type Mode } from '../tripContext'
+import { partyKey, emptyParty, usePartyPeople, modeKey, type Mode } from '../tripContext.ts'
 import type { Stage } from '@/types/stage'
 
 const props = defineProps<{ stage: Stage }>()
