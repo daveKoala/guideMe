@@ -12,6 +12,8 @@ export interface TripMeta {
   timezone: string
   created_at: string
   updated_at: string
+  needs_insurance?: boolean // set up insurance for this trip (drives builder emphasis)
+  needs_ghic?: boolean // capture GHIC for the party (drives builder emphasis)
 }
 
 export interface Party {

@@ -13,8 +13,8 @@ const policies = props.trip.insurance!
 <template>
   <div class="trip-overview">
     <PeopleCard :party="trip.party" />
-    <GhicCard />
-    <InsuranceCard :policies="policies" />
+    <GhicCard :default-open="!!trip.trip.needs_ghic" />
+    <InsuranceCard :policies="policies" :default-open="!!trip.trip.needs_insurance" />
   </div>
 </template>
 

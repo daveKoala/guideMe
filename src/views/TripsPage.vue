@@ -78,6 +78,14 @@ function dateRange(trip: Trip): string {
           :disabled="!!activatingId"
           @click="activate(t.trip.id)"
         />
+
+        <Button
+          label="Build"
+          icon="pi pi-pencil"
+          size="small"
+          text
+          @click="router.push(`/trips/${t.trip.id}/build`)"
+        />
       </li>
     </ul>
 

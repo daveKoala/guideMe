@@ -4,11 +4,11 @@ import { useRouter } from 'vue-router'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Select from 'primevue/select'
+import Checkbox from 'primevue/checkbox'
 import PartyPeoplePicker from '@/components/people/PartyPeoplePicker.vue'
 import { useTripsStore, type TripDraft } from '@/stores/trips'
 import { useAccountStore } from '@/stores/account'
 import { modeKey } from '@/components/timeline/tripContext'
-import type { TripType, TripStatus } from '@/types/trip'
 
 const router = useRouter()
 const trips = useTripsStore()
@@ -21,22 +21,15 @@ onMounted(() => account.fetchPeople())
 
 const draft = reactive<TripDraft>({
   name: '',
+  // Direction/status/timezone aren't asked at create — sensible defaults; status is
+  // editable later. Kept on the draft so the data model stays complete.
   type: 'outbound',
   status: 'planned',
   timezone: 'Europe/London',
   party: { lead_passenger: '', passengers: [] },
+  needs_insurance: false,
+  needs_ghic: false,
 })
-
-const typeOptions: { label: string; value: TripType }[] = [
-  { label: 'Outbound', value: 'outbound' },
-  { label: 'Return', value: 'return' },
-]
-const statusOptions: { label: string; value: TripStatus }[] = [
-  { label: 'Planned', value: 'planned' },
-  { label: 'Booked', value: 'booked' },
-  { label: 'Completed', value: 'completed' },
-  { label: 'Cancelled', value: 'cancelled' },
-]
 
 // Lead options follow whoever is on the party.
 const leadOptions = computed(() =>
@@ -51,8 +44,9 @@ function create() {
   if (!draft.party.passengers.includes(draft.party.lead_passenger)) {
     draft.party.lead_passenger = draft.party.passengers[0] ?? ''
   }
-  trips.saveTrip(draft) // sets currentTripId
-  router.push('/')
+  const trip = trips.saveTrip(draft) // sets currentTripId
+  // Hand off to the builder to fill in itinerary, insurance, GHIC.
+  router.push(`/trips/${trip.trip.id}/build`)
 }
 </script>
 
@@ -65,21 +59,6 @@ function create() {
     <div class="field">
       <label for="trip-name">Trip name</label>
       <InputText id="trip-name" v-model="draft.name" placeholder="e.g. Family trip to Barcelona" fluid />
-    </div>
-
-    <div class="row">
-      <div class="field">
-        <label for="trip-type">Direction</label>
-        <Select id="trip-type" v-model="draft.type" :options="typeOptions" option-label="label" option-value="value" fluid />
-      </div>
-      <div class="field">
-        <label for="trip-status">Status</label>
-        <Select id="trip-status" v-model="draft.status" :options="statusOptions" option-label="label" option-value="value" fluid />
-      </div>
-      <div class="field">
-        <label for="trip-tz">Timezone</label>
-        <InputText id="trip-tz" v-model="draft.timezone" fluid />
-      </div>
     </div>
 
     <h3 class="new-trip__section">People</h3>
@@ -97,6 +76,19 @@ function create() {
         placeholder="Defaults to first person"
         fluid
       />
+    </div>
+
+    <h3 class="new-trip__section">What to set up</h3>
+    <p class="hint">We'll open these for you in the builder next.</p>
+    <div class="checks">
+      <div class="check">
+        <Checkbox v-model="draft.needs_insurance" :binary="true" input-id="needs-insurance" />
+        <label for="needs-insurance">Travel insurance</label>
+      </div>
+      <div class="check">
+        <Checkbox v-model="draft.needs_ghic" :binary="true" input-id="needs-ghic" />
+        <label for="needs-ghic">GHIC (EU health cover)</label>
+      </div>
     </div>
 
     <div class="actions">
@@ -147,6 +139,22 @@ function create() {
 .field label {
   font-weight: 600;
   font-size: 0.875rem;
+}
+
+.checks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.check label {
+  font-weight: 500;
 }
 
 .actions {

@@ -9,14 +9,17 @@ import { modeKey, partyKey, emptyParty, usePartyPeople, type Mode } from '@/comp
 import { useAccountStore } from '@/stores/account'
 import type { Insurance } from '@/types/trip'
 
-const props = defineProps<{ policies: Insurance[] }>()
+const props = withDefaults(defineProps<{ policies: Insurance[]; defaultOpen?: boolean }>(), {
+  defaultOpen: false,
+})
 
 const mode = inject(modeKey, ref<Mode>('read'))
 const party = inject(partyKey, emptyParty)
 const account = useAccountStore()
 
-// Start collapsed; user expands on demand.
-const collapsed = ref(true)
+// Collapsed by default. Only the builder (edit mode) auto-opens it when the trip
+// flagged insurance for setup — Home stays collapsed and calm regardless.
+const collapsed = ref(!(props.defaultOpen && mode.value === 'edit'))
 
 // Only trip members are selectable as "covered people".
 const people = usePartyPeople(party)

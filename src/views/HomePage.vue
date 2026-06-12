@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue'
+import { useRouter } from 'vue-router'
+import Button from 'primevue/button'
 import StageList from '@/components/timeline/StageList.vue'
 import TripOverview from '@/components/trip/TripOverview.vue'
 import { partyKey, emptyParty } from '@/components/timeline/tripContext'
 import { useTripsStore } from '@/stores/trips'
 import { useAccountStore } from '@/stores/account'
 
+const router = useRouter()
 const store = useTripsStore()
 store.loadTrips()
 
@@ -28,6 +31,13 @@ provide(partyKey, trip.value?.party ?? emptyParty)
     <template v-if="trip">
       <header class="home__head">
         <h2>{{ trip.trip.name }}</h2>
+        <Button
+          label="Edit trip"
+          icon="pi pi-pencil"
+          size="small"
+          text
+          @click="router.push(`/trips/${trip.trip.id}/build`)"
+        />
       </header>
 
       <TripOverview :trip="trip" />

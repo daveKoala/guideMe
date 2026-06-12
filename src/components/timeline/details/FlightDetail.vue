@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed, inject, ref } from 'vue'
 import Accordion from 'primevue/accordion'
 import AccordionPanel from 'primevue/accordionpanel'
 import AccordionHeader from 'primevue/accordionheader'
@@ -7,11 +7,12 @@ import AccordionContent from 'primevue/accordioncontent'
 import FileUpload from 'primevue/fileupload'
 import DocPreview from '@/components/common/DocPreview.vue'
 import StageFields from '../StageFields.vue'
-import { partyKey, emptyParty, usePartyPeople } from '../tripContext'
+import { partyKey, emptyParty, usePartyPeople, modeKey, type Mode } from '../tripContext'
 import type { Stage } from '@/types/stage'
 
 const props = defineProps<{ stage: Stage }>()
 
+const mode = inject(modeKey, ref<Mode>('read'))
 const party = inject(partyKey, emptyParty)
 const people = usePartyPeople(party)
 
@@ -42,13 +43,14 @@ const rows = computed(() =>
 
             <DocPreview v-if="row.pass" :file-name="row.pass.fileName" :data-url="row.pass.dataUrl" />
             <FileUpload
-              v-else
+              v-else-if="mode === 'edit'"
               mode="basic"
               :auto="false"
               custom-upload
               choose-label="Upload"
               accept="image/*,application/pdf"
             />
+            <span v-else class="pass-missing">No pass yet</span>
           </li>
         </ul>
       </AccordionContent>
@@ -81,5 +83,10 @@ const rows = computed(() =>
   font-weight: 400;
   opacity: 0.6;
   margin-left: 0.4rem;
+}
+
+.pass-missing {
+  opacity: 0.5;
+  font-size: 0.875rem;
 }
 </style>

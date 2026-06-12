@@ -48,6 +48,15 @@ const routes = [
     },
   },
   {
+    path: '/trips/:id/build',
+    name: 'trip-builder',
+    component: () => import('../views/TripBuilderPage.vue'),
+    meta: {
+      template: 'BasicLayout',
+      title: 'Trip builder',
+    },
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import('../views/LandingPage.vue'),

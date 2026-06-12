@@ -5,11 +5,14 @@ import InputText from 'primevue/inputtext'
 import PersonDocumentSlot from '@/components/people/PersonDocumentSlot.vue'
 import { modeKey, partyKey, emptyParty, usePartyPeople, type Mode } from '@/components/timeline/tripContext'
 
+const props = withDefaults(defineProps<{ defaultOpen?: boolean }>(), { defaultOpen: false })
+
 const mode = inject(modeKey, ref<Mode>('read'))
 const party = inject(partyKey, emptyParty)
 
-// Start collapsed; user expands on demand.
-const collapsed = ref(true)
+// Collapsed by default. Only the builder (edit mode) auto-opens it when the trip
+// flagged GHIC for setup — Home stays collapsed and calm regardless.
+const collapsed = ref(!(props.defaultOpen && mode.value === 'edit'))
 
 // Resolve party ids to account People; ghic_id is edited on the person so it follows them.
 const people = usePartyPeople(party)

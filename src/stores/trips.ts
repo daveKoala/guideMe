@@ -15,6 +15,8 @@ export interface TripDraft {
   status: TripStatus
   timezone: string
   party: Party
+  needs_insurance?: boolean
+  needs_ghic?: boolean
 }
 
 function nowIso(): string {
@@ -133,6 +135,8 @@ export const useTripsStore = defineStore('trips', () => {
       existing.trip.type = draft.type
       existing.trip.status = draft.status
       existing.trip.timezone = draft.timezone
+      existing.trip.needs_insurance = draft.needs_insurance ?? false
+      existing.trip.needs_ghic = draft.needs_ghic ?? false
       existing.trip.updated_at = nowIso()
       existing.party = draft.party
       currentTripId.value = existing.trip.id
@@ -148,6 +152,8 @@ export const useTripsStore = defineStore('trips', () => {
         type: draft.type,
         status: draft.status,
         timezone: draft.timezone,
+        needs_insurance: draft.needs_insurance ?? false,
+        needs_ghic: draft.needs_ghic ?? false,
         created_at: created,
         updated_at: nowIso(),
       },
