@@ -12,6 +12,9 @@ const props = defineProps<{ party: Party }>()
 
 const mode = inject(modeKey, ref<Mode>('read'))
 
+// Start collapsed; user expands on demand.
+const collapsed = ref(true)
+
 const typeOptions: { label: string; value: PassengerType }[] = [
   { label: 'Adult', value: 'adult' },
   { label: 'Child', value: 'child' },
@@ -31,7 +34,7 @@ function removePerson(id: string) {
 </script>
 
 <template>
-  <Panel toggleable>
+  <Panel toggleable v-model:collapsed="collapsed">
     <template #header>
       <span class="ov-title"><span class="ov-icon">👥</span> People</span>
     </template>

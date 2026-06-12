@@ -7,10 +7,13 @@ import { modeKey, partyKey, emptyParty, type Mode } from '@/components/timeline/
 
 const mode = inject(modeKey, ref<Mode>('read'))
 const party = inject(partyKey, emptyParty)
+
+// Start collapsed; user expands on demand.
+const collapsed = ref(true)
 </script>
 
 <template>
-  <Panel toggleable>
+  <Panel toggleable v-model:collapsed="collapsed">
     <template #header>
       <span class="ov-title"><span class="ov-icon">🩺</span> GHIC</span>
     </template>
@@ -28,7 +31,7 @@ const party = inject(partyKey, emptyParty)
         </div>
 
         <div class="field">
-          <label :for="`${p.id}-ghic`">GHIC number</label>
+          <label :for="mode === 'edit' ? `${p.id}-ghic` : undefined">GHIC number</label>
           <InputText
             v-if="mode === 'edit'"
             :id="`${p.id}-ghic`"

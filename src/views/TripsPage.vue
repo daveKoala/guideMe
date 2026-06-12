@@ -1,13 +1,28 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import Button from 'primevue/button'
 import Tag from 'primevue/tag'
 import { useTripsStore } from '@/stores/trips'
 import type { Trip, TripStatus } from '@/types/trip'
 
 const store = useTripsStore()
+const router = useRouter()
+
+const activatingId = ref<string | null>(null)
 
 onMounted(() => store.loadTrips())
+
+// Show a brief spinner first, THEN flip the active trip + land on Home. Setting it
+// up front would swap this row to the "Current" tag instantly and hide the spinner.
+function activate(id: string) {
+  if (activatingId.value) return
+  activatingId.value = id
+  setTimeout(() => {
+    store.setCurrentTrip(id)
+    router.push('/')
+  }, 1000)
+}
 
 const statusSeverity: Record<TripStatus, string> = {
   planned: 'info',
@@ -56,7 +71,9 @@ function dateRange(trip: Trip): string {
           icon="pi pi-check"
           size="small"
           outlined
-          @click="store.setCurrentTrip(t.trip.id)"
+          :loading="activatingId === t.trip.id"
+          :disabled="!!activatingId"
+          @click="activate(t.trip.id)"
         />
       </li>
     </ul>

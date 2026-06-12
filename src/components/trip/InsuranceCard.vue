@@ -13,6 +13,9 @@ const props = defineProps<{ policies: Insurance[] }>()
 const mode = inject(modeKey, ref<Mode>('read'))
 const party = inject(partyKey, emptyParty)
 
+// Start collapsed; user expands on demand.
+const collapsed = ref(true)
+
 function nameFor(id: string): string {
   return party.passengers.find((p) => p.id === id)?.name || 'Unknown'
 }
@@ -30,7 +33,7 @@ function removePolicy(id: string) {
 </script>
 
 <template>
-  <Panel toggleable>
+  <Panel toggleable v-model:collapsed="collapsed">
     <template #header>
       <span class="ov-title"><span class="ov-icon">🛡️</span> Travel insurance</span>
     </template>
@@ -47,7 +50,7 @@ function removePolicy(id: string) {
     <ul class="policies">
       <li v-for="policy in policies" :key="policy.id" class="policy">
         <div class="field">
-          <label :for="`${policy.id}-covers`">Covered people</label>
+          <label :for="mode === 'edit' ? `${policy.id}-covers` : undefined">Covered people</label>
           <MultiSelect
             v-if="mode === 'edit'"
             :input-id="`${policy.id}-covers`"
@@ -63,7 +66,7 @@ function removePolicy(id: string) {
         </div>
 
         <div class="field">
-          <label :for="`${policy.id}-policy`">Policy number</label>
+          <label :for="mode === 'edit' ? `${policy.id}-policy` : undefined">Policy number</label>
           <InputText
             v-if="mode === 'edit'"
             :id="`${policy.id}-policy`"
@@ -74,7 +77,7 @@ function removePolicy(id: string) {
         </div>
 
         <div class="field">
-          <label :for="`${policy.id}-emergency`">Emergency contact</label>
+          <label :for="mode === 'edit' ? `${policy.id}-emergency` : undefined">Emergency contact</label>
           <InputText
             v-if="mode === 'edit'"
             :id="`${policy.id}-emergency`"
@@ -92,7 +95,7 @@ function removePolicy(id: string) {
         </div>
 
         <div class="field">
-          <label :for="`${policy.id}-url`">Account URL</label>
+          <label :for="mode === 'edit' ? `${policy.id}-url` : undefined">Account URL</label>
           <InputText
             v-if="mode === 'edit'"
             :id="`${policy.id}-url`"
@@ -119,7 +122,7 @@ function removePolicy(id: string) {
           <legend>Medical assistance</legend>
 
           <div class="field">
-            <label :for="`${policy.id}-med-id`">Assist ID</label>
+            <label :for="mode === 'edit' ? `${policy.id}-med-id` : undefined">Assist ID</label>
             <InputText
               v-if="mode === 'edit'"
               :id="`${policy.id}-med-id`"
@@ -130,7 +133,7 @@ function removePolicy(id: string) {
           </div>
 
           <div class="field">
-            <label :for="`${policy.id}-med-phone`">Phone</label>
+            <label :for="mode === 'edit' ? `${policy.id}-med-phone` : undefined">Phone</label>
             <InputText
               v-if="mode === 'edit'"
               :id="`${policy.id}-med-phone`"
@@ -144,7 +147,7 @@ function removePolicy(id: string) {
           </div>
 
           <div class="field">
-            <label :for="`${policy.id}-med-url`">URL</label>
+            <label :for="mode === 'edit' ? `${policy.id}-med-url` : undefined">URL</label>
             <InputText
               v-if="mode === 'edit'"
               :id="`${policy.id}-med-url`"

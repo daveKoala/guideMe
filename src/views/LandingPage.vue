@@ -9,7 +9,7 @@
   <h1>Stop being the family travel administrator.</h1>
 
   <p class="hero-text">
-    Travel Day keeps your family’s boarding passes, hotel bookings, parking,
+    Guide Me keeps your family’s boarding passes, hotel bookings, parking,
     insurance and travel plans in one shared place.
   </p>
 
@@ -29,7 +29,7 @@
   </p>
 
   <p>
-    Travel Day brings everything together so you are not searching for a booking
+    Guide Me brings everything together so you are not searching for a booking
     reference at the airport.
   </p>
 </section>
@@ -109,8 +109,8 @@
   <h2>Built by a parent of twins</h2>
 
   <p>
-    Travel Day started after one family holiday where the important travel
-    details were scattered across apps, emails, screenshots and PDFs.
+    Guide Me started after one family holiday where the important travel
+    details were scattered across apps, emails, people, screenshots and PDFs.
   </p>
 
   <p>
@@ -123,7 +123,7 @@
   <h2>Join the waitlist</h2>
 
   <p>
-    Be first to try Travel Day and help shape a better way to organise family
+    Be first to try Guide Me and help shape a better way to organise family
     travel.
   </p>
 
@@ -135,3 +135,143 @@
   </form>
   </section>
 </template>
+
+<style scoped>
+section {
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: 64px var(--space-6);
+}
+
+section + section {
+  border-top: 1px solid var(--color-border);
+}
+
+#waitlist {
+  display:none
+}
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.15;
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+}
+
+h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+p {
+  margin-bottom: var(--space-4);
+  line-height: 1.6;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding-top: 96px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-link);
+  margin-bottom: var(--space-4);
+}
+
+.hero-text {
+  font-size: 1.125rem;
+  color: #4a5366;
+  max-width: 540px;
+  margin-inline: auto;
+}
+
+/* Buttons */
+.button,
+button[type="submit"] {
+  display: inline-block;
+  margin-top: var(--space-4);
+  padding: 12px 24px;
+  background: var(--color-link);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.button:hover,
+button[type="submit"]:hover {
+  opacity: 0.9;
+}
+
+/* Grids */
+.feature-grid,
+.traveller-list {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.feature-grid article,
+.traveller-list article {
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.traveller-list {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.traveller-list ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.traveller-list li {
+  line-height: 1.6;
+}
+
+/* Waitlist */
+.waitlist form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 360px;
+}
+
+.waitlist label {
+  font-weight: 600;
+}
+
+.waitlist input {
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .feature-grid,
+  .traveller-list {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

@@ -41,7 +41,7 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    component: () => import('../views/AboutPage.vue'),
+    component: () => import('../views/LandingPage.vue'),
     meta: {
       template: 'BasicLayout',
       title: 'About',
