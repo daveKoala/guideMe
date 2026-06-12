@@ -2,14 +2,17 @@
 import { inject, ref } from 'vue'
 import Panel from 'primevue/panel'
 import InputText from 'primevue/inputtext'
-import DocumentSlot from './DocumentSlot.vue'
-import { modeKey, partyKey, emptyParty, type Mode } from '@/components/timeline/tripContext'
+import PersonDocumentSlot from '@/components/people/PersonDocumentSlot.vue'
+import { modeKey, partyKey, emptyParty, usePartyPeople, type Mode } from '@/components/timeline/tripContext'
 
 const mode = inject(modeKey, ref<Mode>('read'))
 const party = inject(partyKey, emptyParty)
 
 // Start collapsed; user expands on demand.
 const collapsed = ref(true)
+
+// Resolve party ids to account People; ghic_id is edited on the person so it follows them.
+const people = usePartyPeople(party)
 </script>
 
 <template>
@@ -24,7 +27,7 @@ const collapsed = ref(true)
     </p>
 
     <ul class="people">
-      <li v-for="p in party.passengers" :key="p.id" class="person">
+      <li v-for="p in people" :key="p.id" class="person">
         <div class="person__head">
           <span class="person__name-text">{{ p.name || 'Unnamed' }}</span>
           <span class="person__type-text">{{ p.type }}</span>
@@ -42,11 +45,11 @@ const collapsed = ref(true)
           <span v-else class="value">{{ p.ghic_id || '—' }}</span>
         </div>
 
-        <DocumentSlot label="GHIC card" />
+        <PersonDocumentSlot :person-id="p.id" kind="ghic_card" label="GHIC card" />
       </li>
     </ul>
 
-    <p v-if="!party.passengers.length" class="empty">No people yet.</p>
+    <p v-if="!people.length" class="empty">No people yet.</p>
   </Panel>
 </template>
 

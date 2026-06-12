@@ -4,9 +4,14 @@ import StageList from '@/components/timeline/StageList.vue'
 import TripOverview from '@/components/trip/TripOverview.vue'
 import { partyKey, emptyParty } from '@/components/timeline/tripContext'
 import { useTripsStore } from '@/stores/trips'
+import { useAccountStore } from '@/stores/account'
 
 const store = useTripsStore()
 store.loadTrips()
+
+// Party cards resolve people from the account store, so people must be loaded.
+const account = useAccountStore()
+account.fetchPeople()
 
 // Show whichever trip is "active" in the store. Edits mutate the store copy directly,
 // so they persist and stay in sync with the Trips page.

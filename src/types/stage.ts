@@ -8,5 +8,5 @@ export interface Stage {
   subkind?: string // e.g. 'taxi' for travel_to_airport
   start: string // ISO datetime copied from the type's startKey field; '' allowed
   values: Record<string, string> // field key -> value
-  boarding_passes?: Record<string, StoredDoc> // passenger id -> boarding pass (flight only)
+  boarding_passes?: Record<string, StoredDoc> // person id -> boarding pass (flight only)
 }

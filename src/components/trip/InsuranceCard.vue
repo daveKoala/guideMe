@@ -5,19 +5,24 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import MultiSelect from 'primevue/multiselect'
 import DocumentSlot from './DocumentSlot.vue'
-import { modeKey, partyKey, emptyParty, type Mode } from '@/components/timeline/tripContext'
+import { modeKey, partyKey, emptyParty, usePartyPeople, type Mode } from '@/components/timeline/tripContext'
+import { useAccountStore } from '@/stores/account'
 import type { Insurance } from '@/types/trip'
 
 const props = defineProps<{ policies: Insurance[] }>()
 
 const mode = inject(modeKey, ref<Mode>('read'))
 const party = inject(partyKey, emptyParty)
+const account = useAccountStore()
 
 // Start collapsed; user expands on demand.
 const collapsed = ref(true)
 
+// Only trip members are selectable as "covered people".
+const people = usePartyPeople(party)
+
 function nameFor(id: string): string {
-  return party.passengers.find((p) => p.id === id)?.name || 'Unknown'
+  return account.getPerson(id)?.name || 'Unknown'
 }
 function coveredNames(ids: string[]): string {
   return ids.length ? ids.map(nameFor).join(', ') : '—'
@@ -55,7 +60,7 @@ function removePolicy(id: string) {
             v-if="mode === 'edit'"
             :input-id="`${policy.id}-covers`"
             v-model="policy.covers"
-            :options="party.passengers"
+            :options="people"
             option-label="name"
             option-value="id"
             placeholder="Who's covered?"

@@ -12,14 +12,8 @@ export const mockTrip: Trip = {
   },
 
   party: {
-    lead_passenger: 'Dave',
-    passengers: [
-      { id: 'passenger_1', name: 'Dave', type: 'adult', ghic_id: 'GHIC-90011223344' },
-      { id: 'passenger_2', name: 'Adult 2', type: 'adult', ghic_id: 'GHIC-90011223355' },
-      { id: 'passenger_3', name: 'Child 1', type: 'child' },
-      { id: 'passenger_4', name: 'Child 2', type: 'child' },
-      { id: 'passenger_5', name: 'Child 3', type: 'child' },
-    ],
+    lead_passenger: 'person_dave',
+    passengers: ['person_dave', 'person_adult2', 'person_child1', 'person_child2', 'person_child3'],
   },
 
   sharing: {
@@ -34,7 +28,7 @@ export const mockTrip: Trip = {
       policy_number: 'AXA-99481726',
       emergency_contact: '+44 20 7946 0000',
       account_url: 'https://example-insurer.com/account',
-      covers: ['passenger_1', 'passenger_2', 'passenger_3', 'passenger_4', 'passenger_5'],
+      covers: ['person_dave', 'person_adult2', 'person_child1', 'person_child2', 'person_child3'],
       medical: {
         assist_id: 'MA-55012',
         phone: '+44 20 7946 1111',
@@ -46,7 +40,7 @@ export const mockTrip: Trip = {
       policy_number: 'SKI-22310',
       emergency_contact: '+44 20 7946 2222',
       account_url: 'https://example-ski-insurer.com',
-      covers: ['passenger_1'],
+      covers: ['person_dave'],
       medical: {
         assist_id: 'SKI-ASSIST-77',
         phone: '+44 20 7946 3333',
@@ -90,12 +84,12 @@ export const mockTrip: Trip = {
         arrive: '2026-07-01T10:50:00',
       },
       boarding_passes: {
-        passenger_1: {
+        person_dave: {
           fileName: 'boardingpass.png',
           dataUrl: '/test-docs/boardingpass.png',
           uploadedAt: '2026-06-20T00:00:00Z',
         },
-        passenger_2: {
+        person_adult2: {
           fileName: 'boardingpass.png',
           dataUrl: '/test-docs/boardingpass.png',
           uploadedAt: '2026-06-20T00:00:00Z',

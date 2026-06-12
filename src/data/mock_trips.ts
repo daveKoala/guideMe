@@ -15,11 +15,8 @@ export const mockTrips: Trip[] = [
       updated_at: '2026-06-05T18:30:00+01:00',
     },
     party: {
-      lead_passenger: 'Dave',
-      passengers: [
-        { id: 'passenger_1', name: 'Dave', type: 'adult', ghic_id: 'GHIC-90011223344' },
-        { id: 'passenger_2', name: 'Adult 2', type: 'adult', ghic_id: 'GHIC-90011223355' },
-      ],
+      lead_passenger: 'person_dave',
+      passengers: ['person_dave', 'person_adult2'],
     },
     sharing: {
       owner_edit_url: '/trips/trip_2026_09_14_lhr_jfk/edit/secret-edit-token',
@@ -32,7 +29,7 @@ export const mockTrips: Trip[] = [
         policy_number: 'AXA-77120034',
         emergency_contact: '+44 20 7946 0000',
         account_url: 'https://example-insurer.com/account',
-        covers: ['passenger_1', 'passenger_2'],
+        covers: ['person_dave', 'person_adult2'],
         medical: {
           assist_id: 'MA-66102',
           phone: '+44 20 7946 1111',
@@ -78,12 +75,8 @@ export const mockTrips: Trip[] = [
       updated_at: '2026-01-05T12:00:00+00:00',
     },
     party: {
-      lead_passenger: 'Dave',
-      passengers: [
-        { id: 'passenger_1', name: 'Dave', type: 'adult', ghic_id: 'GHIC-90011223344' },
-        { id: 'passenger_2', name: 'Grandma Sue', type: 'adult', ghic_id: 'GHIC-90011229999' },
-        { id: 'passenger_3', name: 'Child 1', type: 'child' },
-      ],
+      lead_passenger: 'person_dave',
+      passengers: ['person_dave', 'person_sue', 'person_child1'],
     },
     sharing: {
       owner_edit_url: '/trips/trip_2025_12_22_man_gva/edit/secret-edit-token',
@@ -128,8 +121,8 @@ export const mockTrips: Trip[] = [
       updated_at: '2026-06-08T20:00:00+01:00',
     },
     party: {
-      lead_passenger: 'Dave',
-      passengers: [{ id: 'passenger_1', name: 'Dave', type: 'adult', ghic_id: 'GHIC-90011223344' }],
+      lead_passenger: 'person_dave',
+      passengers: ['person_dave'],
     },
     sharing: {
       owner_edit_url: '/trips/trip_2027_03_10_man_kef/edit/secret-edit-token',

@@ -4,13 +4,6 @@ export type PassengerType = 'adult' | 'child' | 'infant'
 export type TripType = 'outbound' | 'return'
 export type TripStatus = 'planned' | 'booked' | 'completed' | 'cancelled'
 
-export interface Passenger {
-  id: string
-  name: string
-  type: PassengerType
-  ghic_id?: string // UK Global Health Insurance Card number
-}
-
 export interface TripMeta {
   id: string
   name: string
@@ -22,8 +15,8 @@ export interface TripMeta {
 }
 
 export interface Party {
-  lead_passenger: string
-  passengers: Passenger[]
+  lead_passenger: string // account Person id
+  passengers: string[] // account Person ids (passenger id === person id everywhere)
 }
 
 export interface Sharing {
@@ -37,7 +30,7 @@ export interface Insurance {
   policy_number?: string
   emergency_contact?: string
   account_url?: string
-  covers: string[] // passenger ids — one or many
+  covers: string[] // account Person ids — one or many
   medical: MedicalAssist // 3rd-party medical assistance provider for this policy
 }
 

@@ -8,7 +8,9 @@
       "Bash(npm i *)",
       "Bash(npx @vite-pwa/assets-generator --preset minimal-2023 public/logo.svg)",
       "Bash(npx vue-tsc *)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "Bash(curl -s -o /dev/null -w \"passport.png HTTP %{http_code}\\\\n\" http://localhost:5175/test-docs/passport.png)",
+      "Bash(node -e \"console.log\\(require\\('playwright'\\)?'pw':'no'\\)\")"
     ]
   }
 }

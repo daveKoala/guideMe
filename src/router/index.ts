@@ -39,6 +39,15 @@ const routes = [
     },
   },
   {
+    path: '/trips/new',
+    name: 'new-trip',
+    component: () => import('../views/NewTripPage.vue'),
+    meta: {
+      template: 'BasicLayout',
+      title: 'New trip',
+    },
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import('../views/LandingPage.vue'),

@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue'
 import Panel from 'primevue/panel'
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import Select from 'primevue/select'
-import DocumentSlot from './DocumentSlot.vue'
-import { modeKey, type Mode } from '@/components/timeline/tripContext'
-import type { Party, PassengerType } from '@/types/trip'
+import PartyPeoplePicker from '@/components/people/PartyPeoplePicker.vue'
+import PersonDocumentSlot from '@/components/people/PersonDocumentSlot.vue'
+import { modeKey, usePartyPeople, type Mode } from '@/components/timeline/tripContext'
+import type { Party } from '@/types/trip'
 
 const props = defineProps<{ party: Party }>()
 
@@ -15,22 +13,7 @@ const mode = inject(modeKey, ref<Mode>('read'))
 // Start collapsed; user expands on demand.
 const collapsed = ref(true)
 
-const typeOptions: { label: string; value: PassengerType }[] = [
-  { label: 'Adult', value: 'adult' },
-  { label: 'Child', value: 'child' },
-  { label: 'Infant', value: 'infant' },
-]
-
-function addPerson() {
-  props.party.passengers.push({
-    id: `passenger_${crypto.randomUUID()}`,
-    name: '',
-    type: 'adult',
-  })
-}
-function removePerson(id: string) {
-  props.party.passengers = props.party.passengers.filter((p) => p.id !== id)
-}
+const people = usePartyPeople(props.party)
 </script>
 
 <template>
@@ -38,50 +21,24 @@ function removePerson(id: string) {
     <template #header>
       <span class="ov-title"><span class="ov-icon">👥</span> People</span>
     </template>
-    <template #icons>
-      <Button
-        v-if="mode === 'edit'"
-        label="Add"
-        icon="pi pi-plus"
-        size="small"
-        @click="addPerson"
-      />
-    </template>
 
-    <ul class="people">
-      <li v-for="p in party.passengers" :key="p.id" class="person">
-        <div class="person__head">
-          <template v-if="mode === 'edit'">
-            <InputText v-model="p.name" placeholder="Name" class="person__name" />
-            <Select
-              v-model="p.type"
-              :options="typeOptions"
-              option-label="label"
-              option-value="value"
-              class="person__type"
-            />
-            <Button
-              icon="pi pi-trash"
-              size="small"
-              text
-              severity="danger"
-              aria-label="Remove person"
-              @click="removePerson(p.id)"
-            />
-          </template>
-          <template v-else>
+    <PartyPeoplePicker v-if="mode === 'edit'" v-model="party.passengers" />
+
+    <template v-else>
+      <ul class="people">
+        <li v-for="p in people" :key="p.id" class="person">
+          <div class="person__head">
             <span class="person__name-text">{{ p.name || 'Unnamed' }}</span>
             <span class="person__type-text">{{ p.type }}</span>
-          </template>
-        </div>
+          </div>
+          <div class="person__docs">
+            <PersonDocumentSlot :person-id="p.id" kind="passport" label="Passport" />
+          </div>
+        </li>
+      </ul>
 
-        <div class="person__docs">
-          <DocumentSlot label="Passport" />
-        </div>
-      </li>
-    </ul>
-
-    <p v-if="!party.passengers.length" class="empty">No people yet.</p>
+      <p v-if="!people.length" class="empty">No people yet.</p>
+    </template>
   </Panel>
 </template>
 
@@ -106,10 +63,6 @@ function removePerson(id: string) {
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
-}
-
-.person__name {
-  flex: 1;
 }
 
 .person__name-text {

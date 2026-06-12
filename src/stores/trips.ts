@@ -4,7 +4,7 @@ import type { Trip, TripType, TripStatus, Party, Sharing } from '../types/trip'
 import type { Stage } from '../types/stage'
 import { mockTrips } from '../data/mock_trips'
 
-const STORAGE_KEY = 'guide-me:trips'
+const STORAGE_KEY = 'guide-me:trips:v2'
 
 /** Editable fields the form produces. `id`/`created_at` present only when editing. */
 export interface TripDraft {

@@ -7,16 +7,17 @@ import AccordionContent from 'primevue/accordioncontent'
 import FileUpload from 'primevue/fileupload'
 import DocPreview from '@/components/common/DocPreview.vue'
 import StageFields from '../StageFields.vue'
-import { partyKey, emptyParty } from '../tripContext'
+import { partyKey, emptyParty, usePartyPeople } from '../tripContext'
 import type { Stage } from '@/types/stage'
 
 const props = defineProps<{ stage: Stage }>()
 
 const party = inject(partyKey, emptyParty)
+const people = usePartyPeople(party)
 
-// pair each passenger with their boarding pass (if any) so the template narrows cleanly
+// pair each person with their boarding pass (if any) so the template narrows cleanly
 const rows = computed(() =>
-  party.passengers.map((p) => ({ p, pass: props.stage.boarding_passes?.[p.id] })),
+  people.value.map((p) => ({ p, pass: props.stage.boarding_passes?.[p.id] })),
 )
 </script>
 

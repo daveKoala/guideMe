@@ -8,7 +8,7 @@ export interface StoredDoc {
   uploadedAt: string
 }
 
-/** Canonical account-level person. Trips will reference these by id (next pass). */
+/** Canonical account-level person. Trips reference these by id (party.passengers). */
 export interface Person {
   id: string
   name: string

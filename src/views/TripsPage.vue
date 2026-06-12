@@ -45,7 +45,10 @@ function dateRange(trip: Trip): string {
   <section class="trips-page">
     <header class="trips-page__head">
       <h2>Trips</h2>
-      <Button label="Reset demo data" icon="pi pi-refresh" text size="small" @click="store.reset()" />
+      <div class="trips-page__actions">
+        <Button label="New trip" icon="pi pi-plus" size="small" @click="router.push('/trips/new')" />
+        <Button label="Reset demo data" icon="pi pi-refresh" text size="small" @click="store.reset()" />
+      </div>
     </header>
 
     <p class="hint">All your trips. Activate one to make it the current trip.</p>
@@ -90,6 +93,12 @@ function dateRange(trip: Trip): string {
   gap: 1rem;
   flex-wrap: wrap;
   margin-bottom: 0.5rem;
+}
+
+.trips-page__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .hint {
