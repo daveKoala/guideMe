@@ -23,6 +23,7 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+*.zip
 
 *.tsbuildinfo
 
@@ -37,3 +38,4 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+dist.zip

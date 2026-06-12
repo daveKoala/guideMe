@@ -1,6 +1,17 @@
-# guide-me
+# Guide Me
 
-This template should help get you started developing with Vue 3 in Vite.
+Guide Me keeps a family's travel documents — boarding passes, hotel and parking
+bookings, insurance, attraction tickets and transport details — in one shared
+place. It organises documents by traveller and builds a simple per-trip timeline
+(when to leave, airport check-in, flight times, return travel), so nobody is
+hunting for a booking reference at the gate. Built with families travelling with
+twins, triplets and larger groups in mind.
+
+## Tech
+
+Vue 3 + Vite, Pinia for state, Vue Router, PrimeVue components. Trips, people and
+timeline data are currently driven by mock data in [`src/data/`](src/data/) — use
+the **Reset demo data** button on the Trips page to restore it.
 
 ## Recommended IDE Setup
 
