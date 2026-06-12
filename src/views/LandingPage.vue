@@ -17,7 +17,23 @@
     Built for parents travelling with twins, triplets and larger families.
   </p>
 
-  <a href="#waitlist" class="button">Join the waitlist</a>
+  <!-- <a href="#waitlist" class="button">Join the waitlist</a> -->
+</section>
+
+<section class="try-it">
+  <h2>Share Guide Me now</h2>
+
+  <p>
+    Scan the QR code with your phone, or follow the link, to open the live demo
+    and explore a real family trip.
+  </p>
+
+  <div class="qr">
+    <img src="/QRCode.png" alt="QR code linking to the Guide Me demo" width="220" height="220" />
+    <a href="https://guide-me.tiiny.site/" target="_blank" rel="noopener" class="qr-link">
+      guide-me.tiiny.site
+    </a>
+  </div>
 </section>
 
 <section class="problem">
@@ -195,6 +211,30 @@ p {
   color: #4a5366;
   max-width: 540px;
   margin-inline: auto;
+}
+
+/* Try it / QR */
+.try-it {
+  text-align: center;
+}
+
+.qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.qr img {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  background: #fff;
+}
+
+.qr-link {
+  font-weight: 600;
+  color: var(--color-link);
 }
 
 /* Buttons */

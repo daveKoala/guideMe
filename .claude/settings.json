@@ -10,7 +10,8 @@
       "Bash(npx vue-tsc *)",
       "Bash(git rm *)",
       "Bash(curl -s -o /dev/null -w \"passport.png HTTP %{http_code}\\\\n\" http://localhost:5175/test-docs/passport.png)",
-      "Bash(node -e \"console.log\\(require\\('playwright'\\)?'pw':'no'\\)\")"
+      "Bash(node -e \"console.log\\(require\\('playwright'\\)?'pw':'no'\\)\")",
+      "Bash(curl -s -o /dev/null -w \"QRCode.png HTTP %{http_code}\\\\n\" http://localhost:5173/QRCode.png)"
     ]
   }
 }
